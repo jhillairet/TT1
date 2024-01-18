@@ -11,7 +11,8 @@ class TT1Pulse:
     DATA_PATH = "data"
     data_params = {
         "IT2": "Toroidal Current",
-        "IP2": "Plasma Current from left-side chamber",
+        "IP1": "Plasma Current from left-side chamber",
+        "IP2": "Plasma Current from right-side chamber",
         "GP": "Gas Puffing",
         "HCN1": "HCN Interf HFS",
         "HCN2": "HCN Interf Center",
