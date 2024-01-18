@@ -16,6 +16,10 @@ pulse.q_a.plot(ax=axes[2])
 axes[0].set_xlim(330, 345)
 axes[2].set_ylim(0, 100)
 
+#%% Another way of plotting things
+fig, ax = plt.subplots()
+pulse.df[['IP1 [A]', 'IP2 [A]']].plot(ax=ax)
+
 #%% Get the edge safety factor at max Ip for a few pulses
 pulse_nbs = [2463, 2464, 2465, 2466]
 results = {}

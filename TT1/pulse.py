@@ -87,8 +87,8 @@ class TT1Pulse:
             * np.pi
             * self.a**2
             / (self.R * mu0)
-            * self.B_t["B_t"]
-            / self.I_p["I_p"]
+            * self.B_t["B_t [T]"]
+            / self.I_p["I_p [A]"]
         )
 
         return pd.DataFrame(q_a, columns=["q_a"])
@@ -106,6 +106,22 @@ class TT1Pulse:
             Plasma duration.
 
         """
-        plasma = self.I_p.loc[self.I_p["I_p"] > 1e3]
+        plasma = self.I_p.loc[self.I_p["I_p [A]"] > 1e3]
         duration = plasma.index[-1] - plasma.index[0]
         return duration
+
+    @property
+    def df(self):
+        """
+        Return the pulse time series data as a pandas DataFrame.
+
+        Returns
+        -------
+        df : pandas.DataFrame
+            DataFrame which contains all the time series data.
+
+        """
+        df = pd.concat([d.df for (param, d) in self.data.items()], axis=1)
+        # add some processed data
+        df = pd.concat([df, self.B_t, self.I_p, self.q_a], axis=1)
+        return df
