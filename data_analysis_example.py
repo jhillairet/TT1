@@ -7,7 +7,7 @@ from TT1.pulse import TT1Pulse
 import matplotlib.pyplot as plt
 
 #%% Plot time series for a given pulse
-pulse = TT1Pulse(2442)
+pulse = TT1Pulse(2466)
 
 fig, axes = plt.subplots(3, 1, sharex=True)
 pulse.I_p.plot(ax=axes[0])
@@ -25,7 +25,20 @@ for pulse_nb in pulse_nbs:
     results[pulse_nb] = pulse.q_a.loc[pulse.I_p.idxmax()]
 
 print(results)
-# 2463: 47.465025, 
-# 2464: 48.718638, 
-# 2465: 44.004837, 
-# 2466: 58.252482
+
+#%% Plasma Duration for all shots located in the data dir
+from pathlib import Path
+datadir = Path('data').absolute()
+pulse_nbs = []
+for pulsepath in datadir.glob('24*'):
+    pulse_nbs.append(int(str(pulsepath).split("\\")[-1]))
+
+durations = {}
+for pulse_nb in pulse_nbs:
+    try: 
+        durations[pulse_nb] = TT1Pulse(pulse_nb).duration
+    except IndexError as e:  # no plasma
+        durations[pulse_nb] = 0
+    
+print(durations)
+
