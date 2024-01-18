@@ -77,7 +77,7 @@ class TT1TimeSeries:
                 file,
                 skiprows=8,
                 sep="  ",
-                names=["t", "y"],
+                names=["t", f'{parameters["SignalName"]} [{parameters["SignalUnit"]}]'],
                 index_col="t",
                 engine="python",
             )

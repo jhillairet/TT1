@@ -51,8 +51,8 @@ class TT1Pulse:
             Toroidal Field in T as function of time.
 
         """
-        B_t = 1.165 * self.data["IT2"].df["y"] / self.R ** (1.1) / 1e4
-        return pd.DataFrame(B_t).rename(columns={"y": "B_t"})
+        B_t = 1.165 * self.data["IT2"].df / self.R ** (1.1) / 1e4
+        return pd.DataFrame(B_t).rename(columns={"IT2 [A]": "B_t [T]"})
 
     @property
     def I_p(self):
@@ -65,7 +65,7 @@ class TT1Pulse:
             Plasma Current in A as function of time.
 
         """
-        return self.data["IP2"].df.rename(columns={"y": "I_p"})
+        return self.data["IP1"].df.rename(columns={"IP1 [A]": "I_p [A]"})
 
     @property
     def q_a(self):
