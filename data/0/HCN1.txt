@@ -1,0 +1,12 @@
+DataBase = TT1
+ShotNo = 0
+SignalName = HCN1
+SignalUnit = V
+TriggerTime = 0.000000 ms
+Period = 0.019999 ms
+CreateTime = 2024/01/17 09:50:55
+Samples = 25000
+0.000000  0.966265
+0.019999  0.959558
+0.039998  0.967223
+
