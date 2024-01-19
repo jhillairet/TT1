@@ -1,5 +1,7 @@
 # TT1
-A Python package to get and analyze the time series data of the Thailand Tokamak 1 (TT1).
+A Python package to get and analyze the time series data of the [Thailand Tokamak 1 (TT1)](https://en.wikipedia.org/wiki/Thailand_Tokamak-1).
+
+Thailand Tokamak-1 (or TT-1) is a small research tokamak operated by the [Thailand Institute of Nuclear Technology](https://www.tint.or.th/en/useful_detail/Thailand%20Tokamak%20-%201) in Nakhon Nayok province, Thailand.
 
 ## Accessing Data
 The data must be stored locally, inside the `data/` directory, with one directory per pulse number. Directory names should be the pulse number.
