@@ -6,6 +6,26 @@ from .timeseries import TT1TimeSeries
 
 
 class TT1Pulse:
+    """
+    TT-1 Pulse data.
+
+    Parameters
+    ----------
+    pulse : int
+        Pulse number.
+    read_all : bool, optional
+        If True, read all the time series file located in the directory.
+        If False, read only the time series defined in the data_params dict.
+        The default is False.
+
+    Raises
+    ------
+    FileExistsError
+        If the pulse data are not found.
+
+
+    """
+
     R = 0.6  # major radius in meter
     a = 0.25  # minor radius in meter
     DATA_PATH = "data"
@@ -18,7 +38,7 @@ class TT1Pulse:
         "HCN2": "HCN Interf Center",
     }
 
-    def __init__(self, pulse: int):
+    def __init__(self, pulse: int, read_all: bool = False):
         self.p = Path(self.DATA_PATH + "/" + str(pulse)).absolute()
         print(self.p)
 
@@ -26,16 +46,40 @@ class TT1Pulse:
             raise FileExistsError("The specified pulse data do not exist.")
 
         self.pulse = pulse
-        self._read_data(self.p)
+        self._read_data(self.p, read_all)
 
-    def _read_data(self, path):
+    def _read_data(self, path, read_all: bool = False):
+        """
+        Read time series for a TT-1 pulse data directory.
+
+        Parameters
+        ----------
+        path : pathlib.Path
+            Path to a directory.
+        read_all : bool, optional
+            If True, read all the time series file located in the directory.
+            If False, read only the time series defined in the data_params dict.
+
+        Returns
+        -------
+        None.
+
+        """
         # extract all the data from this pulse
         self.data = {}
-        for param in self.data_params.keys():
-            file = path / f"{param}.txt"
 
-            if file.exists():
-                self.data[param] = TT1TimeSeries(file=file)
+        if read_all:
+            # read all available time series (longer)
+            for timeseries_file in path.glob("*.txt"):
+                param_name = timeseries_file.name.split(".")[0]
+                self.data[param_name] = TT1TimeSeries(file=timeseries_file)
+        else:
+            # read only a selection of time series, defined in self.data_params
+            for param in self.data_params.keys():
+                file = path / f"{param}.txt"
+
+                if file.exists():
+                    self.data[param] = TT1TimeSeries(file=file)
 
     def __repr__(self):
         text = f"TT-1 Pulse #{self.pulse} data."
@@ -66,7 +110,7 @@ class TT1Pulse:
             Plasma Current in A as function of time.
 
         """
-        return self.data["IP1"].df.rename(columns={"IP1 [A]": "I_p [A]"})
+        return self.data["IP2"].df.rename(columns={"IP2 [A]": "I_p [A]"})
 
     @property
     def q_a(self):
